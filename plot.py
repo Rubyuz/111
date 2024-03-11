@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 
-# note that this script is written for python2, but it should be
-# straightforward to port it to python3
-
-import mpl_toolkits
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import mpl_toolkits
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 import math
@@ -39,13 +36,9 @@ def pretty_size(logsize,pos):
     unit=0
     size=int(2**logsize)# now in bytes
     while size>1000:
-        size/=1000
+        size//=1000
         unit+=1
     return str(size)+suffixes[unit]
-
-fig = plt.figure()
-ax = fig.gca(projection='3d')
-
 
 if len(sys.argv)==2:
     with open(sys.argv[1]) as f:
@@ -65,19 +58,23 @@ y = np.log2(y) # we cheat to get a logarithmic Y axis
 
 # throughput
 z = [float(row.split(' ')[2]) for row in data]
- 
-ax.plot_trisurf(x,y,z,cmap='rainbow')
 
-ax.set_xlabel('Stride')
-ax.set_xlim(0)
+# plot setup
+fig=plt.figure()
+fig.subplots_adjust(left=0, right=1, bottom=0, top=1) # reduce whitespace margins around plot (I hope?)
+ax =fig.add_subplot(projection='3d')
+ax.invert_yaxis()
+ax.view_init(elev=15,azim=130)
+
+ax.plot_trisurf(x,y,z,cmap='rainbow',edgecolors='black')
+
+ax.set_xlabel('Stride (bytes)')
+ax.set_xlim(right=0)
 
 ax.set_ylabel('Working set size')
 ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(pretty_size))
-ax.yaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())
-ax.set_ylim(11)
-ax.invert_yaxis()
 
-ax.set_zlabel('Throughput')
+ax.set_zlabel('Throughput',labelpad=20)
+ax.tick_params(axis='z', pad=10) # 
 ax.zaxis.set_major_formatter(mpl.ticker.FuncFormatter(pretty_speed))
-
 plt.show()

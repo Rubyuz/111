@@ -24,7 +24,7 @@ just type `make plot` and enjoy the show.
 
 dependencies:
 - gcc
-- python2
+- python3
 - matplotlib/numpy
 
 # Implementation

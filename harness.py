@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-
-# note that this script is written for python2, but it should be
-# straightforward to port it to python3
+#!/usr/bin/env python3
 
 import numpy as np
 
@@ -22,7 +19,8 @@ for mag in range(10,27): # from 2^10 (1kB) to 2^27 (64MB)
                                          str(stride)]);
 
             for l in log.splitlines():
+                l=str(l)
                 if "MB/s" in l:
                     results.append( float(l[ l.find('=')+1: l.find('MB/s') ]) ) 
 
-        print size,stride,np.median(results)
+        print(f'{size} {stride} {np.median(results)}')
