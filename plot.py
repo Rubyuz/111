@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # note that this script is written for python2, but it should be
 # straightforward to port it to python3
 
+import mpl_toolkits
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -50,7 +51,7 @@ if len(sys.argv)==2:
     with open(sys.argv[1]) as f:
         data = f.read()
 else:
-    print "usage: plot.py DATAFILE"
+    print("usage: plot.py DATAFILE")
     sys.exit(1)
     
 data = data.splitlines()
